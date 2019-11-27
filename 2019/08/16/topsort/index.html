@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="szdytom&#39;s blog">
 <meta property="og:description" content="by laihaochenunder 图论九讲 拓扑排序的定义 对一个有向无环图(Directed Acyclic Graph简称DAG) $G$进行拓扑排序，是将$G$中所有顶点排成一个线性序列，使得图中任意一对顶点$u$和$v$，若边$u \rightarrow v \in E(G)$，则u在线性序列中出现在$v$之前。通常，这样的线性序列称为满足拓扑次序(Topological Order)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-27T05:47:50.548Z">
+<meta property="og:updated_time" content="2019-11-27T06:06:45.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析拓扑排序">
 <meta name="twitter:description" content="by laihaochenunder 图论九讲 拓扑排序的定义 对一个有向无环图(Directed Acyclic Graph简称DAG) $G$进行拓扑排序，是将$G$中所有顶点排成一个线性序列，使得图中任意一对顶点$u$和$v$，若边$u \rightarrow v \in E(G)$，则u在线性序列中出现在$v$之前。通常，这样的线性序列称为满足拓扑次序(Topological Order)">
@@ -347,6 +347,8 @@
 <p>对一个<strong>有向无环图</strong>(Directed Acyclic Graph简称DAG) $G$进行拓扑排序，是将$G$中所有顶点排成一个线性序列，使得图中任意一对顶点$u$和$v$，若边$u \rightarrow v \in E(G)$，则u在线性序列中出现在$v$之前。通常，这样的线性序列称为满足拓扑次序(Topological Order)的序列，简称拓扑序列。简单的说，由某个集合上的一个偏序得到该集合上的一个全序，这个操作称之为拓扑排序。<br>其实， 就是给一个有向无环图一个遍历的顺序。<br>但对于任意一条边 $u \rightarrow v$ 我们还要让$u$排在$v$前面， 所以我们可以通过<strong>入度</strong>来计算。</p>
 </blockquote>
 <h1 id="拓扑排序解决的问题"><a href="#拓扑排序解决的问题" class="headerlink" title="拓扑排序解决的问题"></a>拓扑排序解决的问题</h1><p>拓扑排序解决类似于$i$必须排在$j$前的问题。<br>例如：<br>3必须排在5前；<br>4必须排在3前；<br>1必须排在2前；<br>5必须排在1前；<br>那么，顺序可能是<code>4 3 5 1 2</code></p>
+<a id="more"></a>
+
 <h1 id="拓扑排序的实现"><a href="#拓扑排序的实现" class="headerlink" title="拓扑排序的实现"></a>拓扑排序的实现</h1><p>后面拓扑要用入度，可以在建图时顺手加上。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">    <span class="built_in">scanf</span> (<span class="string">"%d%d"</span>, &amp;a, &amp;b);</span><br><span class="line">    g[a].push_back(b);</span><br><span class="line">    rd[b]++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

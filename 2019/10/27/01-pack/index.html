@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="szdytom&#39;s blog">
 <meta property="og:description" content="基本问题有N件物品和一个容量为V 的背包。放入第$i$件物品耗费的空间是$C_i$，得到的价值是$W_i$。求解将哪些物品装入背包可使价值总和最大。 思路这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。 用子问题定义状态：即$F[i,v]$表示前i件物品恰放入一个容量为v的背包可以获得的最大价值。则其状态转移方程便是：$F[i, v] = max{F[i−1,v], F[i−1,">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-27T05:32:16.000Z">
+<meta property="og:updated_time" content="2019-11-27T06:06:18.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[C++]01背包问题">
 <meta name="twitter:description" content="基本问题有N件物品和一个容量为V 的背包。放入第$i$件物品耗费的空间是$C_i$，得到的价值是$W_i$。求解将哪些物品装入背包可使价值总和最大。 思路这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。 用子问题定义状态：即$F[i,v]$表示前i件物品恰放入一个容量为v的背包可以获得的最大价值。则其状态转移方程便是：$F[i, v] = max{F[i−1,v], F[i−1,">
@@ -322,6 +322,8 @@
       
         <h1 id="基本问题"><a href="#基本问题" class="headerlink" title="基本问题"></a>基本问题</h1><p>有N件物品和一个容量为V 的背包。放入第$i$件物品耗费的空间是$C_i$，得到的价值是$W_i$。求解将哪些物品装入背包可使价值总和最大。</p>
 <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。 用子问题定义状态：即$F[i,v]$表示前i件物品恰放入一个容量为v的背包可以获得的最大价值。则其状态转移方程便是：<br>$F[i, v] = max{F[i−1,v], F[i−1,v−C_i] + W_i}$</p>
+<a id="more"></a>
+
 <h2 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(F[<span class="number">0</span>], <span class="number">0</span>, <span class="keyword">sizeof</span>(F[<span class="number">0</span>]));</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> v = <span class="number">0</span>; v &lt;= V; ++v) &#123;</span><br><span class="line">		<span class="keyword">if</span> (v &gt;= c[i]) F[i][v] = max(F[i<span class="number">-1</span>][v], F[i<span class="number">-1</span>][v-c[i]] + w[i]);</span><br><span class="line">		<span class="keyword">else</span> F[i][v] = F[i<span class="number">-1</span>][v];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= V; ++i) ans = max(ans, F[n][i]);</span><br></pre></td></tr></table></figure>
 
 <p>其时间复杂度和空间复杂度都是$O(NV)$， 其中时间复杂度基本上不能再优化了，但空间复杂度却可以优化到$O(V)$。 </p>

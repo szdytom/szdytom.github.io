@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="指针的用处链表  指针的定义基本概念指针就是指向一个变量或者指针的变量，它里面存储的值是一个内存空间的地址。当然，一个指针也可以指向指针。 代码实现12345int i = 3;int *p = &amp;amp;i;int **q = &amp;amp;p;cout&amp;lt;&amp;lt;p&amp;lt;&amp;lt;&quot; &quot;&amp;lt;&amp;lt;*p&amp;lt;&amp;lt;endl;cout&amp;lt;&amp;lt;q&amp;lt;&amp;lt;&quot; &quot;&amp;lt;&amp;lt">
+<meta name="description" content="指针的用处链表  指针的定义基本概念指针就是指向一个变量或者指针的变量，它里面存储的值是一个内存空间的地址。当然，一个指针也可以指向指针。">
 <meta name="keywords" content="C++">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[C++]指针">
 <meta property="og:url" content="http://yoursite.com/2019/07/13/c-pointer/index.html">
 <meta property="og:site_name" content="szdytom&#39;s blog">
-<meta property="og:description" content="指针的用处链表  指针的定义基本概念指针就是指向一个变量或者指针的变量，它里面存储的值是一个内存空间的地址。当然，一个指针也可以指向指针。 代码实现12345int i = 3;int *p = &amp;amp;i;int **q = &amp;amp;p;cout&amp;lt;&amp;lt;p&amp;lt;&amp;lt;&quot; &quot;&amp;lt;&amp;lt;*p&amp;lt;&amp;lt;endl;cout&amp;lt;&amp;lt;q&amp;lt;&amp;lt;&quot; &quot;&amp;lt;&amp;lt">
+<meta property="og:description" content="指针的用处链表  指针的定义基本概念指针就是指向一个变量或者指针的变量，它里面存储的值是一个内存空间的地址。当然，一个指针也可以指向指针。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://s2.ax1x.com/2019/08/15/mEkxrq.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/08/15/mEkzq0.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/08/15/mEPXx1.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/08/15/mEF79J.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/08/15/mEPO2R.png">
-<meta property="og:updated_time" content="2019-11-27T05:32:16.000Z">
+<meta property="og:updated_time" content="2019-11-27T06:04:00.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[C++]指针">
-<meta name="twitter:description" content="指针的用处链表  指针的定义基本概念指针就是指向一个变量或者指针的变量，它里面存储的值是一个内存空间的地址。当然，一个指针也可以指向指针。 代码实现12345int i = 3;int *p = &amp;amp;i;int **q = &amp;amp;p;cout&amp;lt;&amp;lt;p&amp;lt;&amp;lt;&quot; &quot;&amp;lt;&amp;lt;*p&amp;lt;&amp;lt;endl;cout&amp;lt;&amp;lt;q&amp;lt;&amp;lt;&quot; &quot;&amp;lt;&amp;lt">
+<meta name="twitter:description" content="指针的用处链表  指针的定义基本概念指针就是指向一个变量或者指针的变量，它里面存储的值是一个内存空间的地址。当然，一个指针也可以指向指针。">
 <meta name="twitter:image" content="https://s2.ax1x.com/2019/08/15/mEkxrq.png">
 
 
@@ -329,6 +329,8 @@
         <h1 id="指针的用处"><a href="#指针的用处" class="headerlink" title="指针的用处"></a>指针的用处</h1><p><a href="https://blog.csdn.net/szdytom/article/details/84540756" target="_blank" rel="noopener">链表</a></p>
 <hr>
 <h1 id="指针的定义"><a href="#指针的定义" class="headerlink" title="指针的定义"></a>指针的定义</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>指针就是指向一个变量或者指针的变量，它里面存储的值是一个内存空间的地址。<br><img src="https://s2.ax1x.com/2019/08/15/mEkxrq.png" alt="mEkxrq.png"><br>当然，一个指针也可以指向指针。<br><img src="https://s2.ax1x.com/2019/08/15/mEkzq0.png" alt="mEkzq0.png"></p>
+<a id="more"></a>
+
 <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> *p = &amp;i;</span><br><span class="line"><span class="keyword">int</span> **q = &amp;p;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p&lt;&lt;<span class="string">" "</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;q&lt;&lt;<span class="string">" "</span>&lt;&lt;*q&lt;&lt;<span class="string">" "</span>&lt;&lt;**q;</span><br></pre></td></tr></table></figure>
 
 <p>本程序的输出结果可能是:</p>
