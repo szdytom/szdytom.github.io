@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="算法,图论,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="by szTomunder group algorithm - graph  从代数到图论差分约束方程差分约束方程就是形如 $x_i-x_j \leq w_{ij}$ 或 $x_i-x_j \geq w_{ij}$ 的方程组 比如说： $\begin{cases}x_1-x_3 \leq 5 \\ x_1-x_2 \leq 2 \\ x_2-x_1 \leq 0 \\ x_2-x_3 \leq 2">
+<meta name="keywords" content="算法,图论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈差分约束系统">
+<meta property="og:url" content="http://yoursite.com/2019/07/31/cha-fen-yu-shu/index.html">
+<meta property="og:site_name" content="szdytom&#39;s blog">
+<meta property="og:description" content="by szTomunder group algorithm - graph  从代数到图论差分约束方程差分约束方程就是形如 $x_i-x_j \leq w_{ij}$ 或 $x_i-x_j \geq w_{ij}$ 的方程组 比如说： $\begin{cases}x_1-x_3 \leq 5 \\ x_1-x_2 \leq 2 \\ x_2-x_1 \leq 0 \\ x_2-x_3 \leq 2">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/29/e8SIDP.png">
+<meta property="og:updated_time" content="2019-11-27T05:32:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈差分约束系统">
+<meta name="twitter:description" content="by szTomunder group algorithm - graph  从代数到图论差分约束方程差分约束方程就是形如 $x_i-x_j \leq w_{ij}$ 或 $x_i-x_j \geq w_{ij}$ 的方程组 比如说： $\begin{cases}x_1-x_3 \leq 5 \\ x_1-x_2 \leq 2 \\ x_2-x_1 \leq 0 \\ x_2-x_3 \leq 2">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/29/e8SIDP.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/31/cha-fen-yu-shu/">
+
+
+
+
+
+  <title>浅谈差分约束系统 | szdytom's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">szdytom's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/31/cha-fen-yu-shu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="szdytom">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="szdytom's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅谈差分约束系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-31T17:37:00+08:00">
+                2019-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/图论九讲/" itemprop="url" rel="index">
+                    <span itemprop="name">图论九讲</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>by <a href="https://www.luogu.org/space/show?uid=108422" target="_blank" rel="noopener">szTom</a><br>under group algorithm - graph</p>
+<hr>
+<h1 id="从代数到图论"><a href="#从代数到图论" class="headerlink" title="从代数到图论"></a>从代数到图论</h1><h2 id="差分约束方程"><a href="#差分约束方程" class="headerlink" title="差分约束方程"></a>差分约束方程</h2><p>差分约束方程就是形如 $x_i-x_j \leq w_{ij}$ 或 $x_i-x_j \geq w_{ij}$ 的<strong>方程组</strong></p>
+<p>比如说：</p>
+<p>$\begin{cases}x_1-x_3 \leq 5 \\ x_1-x_2 \leq 2 \\ x_2-x_1 \leq 0 \\ x_2-x_3 \leq 2 \\ x_3-x_2 \leq -1 \\ x_3-x_1 \leq -2 \end{cases}$</p>
+<p>就是一组差分方程。<br>下面是它的一组解：</p>
+<p>$\begin{cases}x_1=5 \\ x_2=3 \\ x_3=1 \end{cases}$</p>
+<p>一组差分约束方程要么有<strong>无穷组解</strong>，要么<strong>无解</strong>。因为如果它有解，那么它的解同时加上一个实数 $k$，依旧是一组解。<br>因为每个数都加$k$，他们任意两个数之间的差是不变的，所以对于不等式没有影响。</p>
+<hr>
+<p>$\mathtt{For}\ \mathtt{Example}:$</p>
+<p>上式的解还可以是<br>$\begin{cases}x_1=6 \\ x_2=4 \\ x_3=2 \end{cases}$<br>（同时加$1$）</p>
+<hr>
+<h2 id="图论解法"><a href="#图论解法" class="headerlink" title="图论解法"></a>图论解法</h2><p>多数博客接下来是这么说的：</p>
+<blockquote>
+<p>看到 $x_i - x_j \leq w_{ij}$<br>有没有想到什么呢？ 可以变形为 $x_i \leq x_j + w_{ij}$ ,这与单元最短路中的三角形不等式$D_i&lt;=D_j+w_{ij}$非常相似<br>因此，可以把每个变量 $x_i$ 看做有向图中的一个结点$i$,对于约束条件 $X_i - X_j ≤ w_{ij}$ ,从结点$j$向结点i连一条权值为 $w_{ij}$ 的有向边。</p>
+</blockquote>
+<p>这里补充一下：$D_i$就是上面$x_i$的一组解。<br>讲得是没错，然而，凭什么长得像就可以随便乱套呢？<br>首先第一步最开始，<br>我们画张图看看：</p>
+<p><img src="https://s2.ax1x.com/2019/07/29/e8SIDP.png" alt="e8SIDP.png"></p>
+<p>比如对于$x_1-x_3 \leq 5$，如果有当前从1到3的最短路大于5，那么一定会被这条路（$1\rightarrow3$）替换掉。<br>同理，对于 $x_i-x_j \leq w_{ij}$，如果有当前从$i$到$j$的最短路大于$w_{ij}$，那么一定会被这条路（$i\rightarrow j$）替换掉。<br>大于也是同样的原理，可以举一反三。<br>同理可得其它边，以保证在前提（差分约束方程）不被违反的情况下得到最优解。</p>
+<h1 id="差分约束系统"><a href="#差分约束系统" class="headerlink" title="差分约束系统"></a>差分约束系统</h1><h2 id="大于还是小于"><a href="#大于还是小于" class="headerlink" title="大于还是小于"></a>大于还是小于</h2><p>众所周知，不等式方程是互通的，它们可以互相转换。</p>
+<hr>
+<p>$\mathtt{For}\ \mathtt{Example}:$</p>
+<p>刚才的方程组：</p>
+<p>$\begin{cases}x_1-x_3 \leq 5 \\x_1-x_2 \leq 2 \\x_2-x_1 \leq 0 \\x_2-x_3 \leq 2 \\x_3-x_2 \leq -1 \\ x_3-x_1 \leq -2 \end{cases}$</p>
+<p>等价于：</p>
+<p>$\begin{cases}x_3-x_1 \geq -5 \\x_2-x_1 \geq -2 \\x_1-x_2 \geq 0 \\x_3-x_2 \geq -2 \\x_2-x_3 \geq 1 \\ x_1-x_3 \geq 2 \end{cases}$</p>
+<hr>
+<p>那么差分约束系统该用大于还是小于呢？<br>事实上，两者都有使用，具体看情况。</p>
+<blockquote>
+<p>小于求最短路得到最大值，<br>大于求最长路得到最小值。</p>
+</blockquote>
+<h2 id="无解情况"><a href="#无解情况" class="headerlink" title="无解情况"></a>无解情况</h2><p>并不是所有差分约束方程都有解。大致可分为两类：</p>
+<h3 id="条件矛盾"><a href="#条件矛盾" class="headerlink" title="条件矛盾"></a>条件矛盾</h3><p>顾名思义，满足了条件A就无法满足条件B。</p>
+<hr>
+<p>$\mathtt{For}\ \mathtt{Example}:$</p>
+<p>$\begin{cases}x_1-x_2 \leq 5 \\ x_2-x_1 \leq -6\end{cases}$</p>
+<p>等价于：</p>
+<p>$\begin{cases}x_1-x_2\leq5 \\ x_1-x_2\geq6\end{cases}$</p>
+<hr>
+<h3 id="无关未知数"><a href="#无关未知数" class="headerlink" title="无关未知数"></a>无关未知数</h3><p>这个其实不一定算无解，不过和2.2.1判断方法一致，就勉强算无解吧。<br>未知数没有构成强连通分量。</p>
+<hr>
+<p>$\mathtt{For}\ \mathtt{Example}:$</p>
+<p>$\begin{cases}x_1-x_2 \leq 5 \\ x_3-x_1 \leq 2\\ x_4-x_5 \leq 2 \\ x_5-x_6 \leq -3\end{cases}$</p>
+<p>这里<br>$x_1,x_2,x_3$与$x_4,x_5,x_6$毫无关联。</p>
+<hr>
+<h3 id="判断无解"><a href="#判断无解" class="headerlink" title="判断无解"></a>判断无解</h3><p>最短路有负环或最长路有正环即为无解。</p>
+<h2 id="超级源点"><a href="#超级源点" class="headerlink" title="超级源点"></a>超级源点</h2><p>超级原点连接到所有点，且权值都是0。<br>在求最长路时，可以加入一个超级原点以简化代码。<br>最短路似乎好像也许可能可以加入超级原点，不过容易引起错误。</p>
+<h2 id="去除重边"><a href="#去除重边" class="headerlink" title="去除重边"></a>去除重边</h2><p>重复的边会容易导致错误（误判负环）<br>去重边的伪代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">flag &lt;- <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> G[u]</span><br><span class="line">    <span class="keyword">if</span> G[u,i].v = v</span><br><span class="line">        <span class="keyword">if</span> w better than G[u,i].w</span><br><span class="line">            set new G[u,i].w</span><br><span class="line">        flag &lt;- <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> flag = <span class="number">1</span></span><br><span class="line">    G[u].append(v, w)</span><br></pre></td></tr></table></figure>
+
+<h1 id="模板代码"><a href="#模板代码" class="headerlink" title="模板代码"></a>模板代码</h1><p>就是一个spfa模板（最长路）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">spfa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(d, <span class="number">0xef</span>, <span class="keyword">sizeof</span>(d));</span><br><span class="line">    d[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    q.push(<span class="number">0</span>);</span><br><span class="line">    tx[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> u = q.front();</span><br><span class="line">        q.pop();</span><br><span class="line">        vis[u] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; G[u].size(); ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> v = G[u][i].v;</span><br><span class="line">            <span class="keyword">int</span> dis = G[u][i].w;</span><br><span class="line">            <span class="keyword">if</span> (d[v] &gt; d[u] + dis) &#123;</span><br><span class="line">                d[v] = d[u] + dis;</span><br><span class="line">                <span class="keyword">if</span> (++tx[v] &gt;= <span class="number">40</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!vis[v]) &#123;</span><br><span class="line">                    q.push(v);</span><br><span class="line">                    vis[v] = <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最短路时改一下符号：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (dis[v] &lt; dis[u] + w) &#123;</span><br><span class="line">    --snip--</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><h2 id="P1993-小K的农场"><a href="#P1993-小K的农场" class="headerlink" title="P1993 小K的农场"></a>P1993 <a href="https://www.luogu.org/problem/P1993" target="_blank" rel="noopener">小K的农场</a></h2><p>模板题，长短路均可，主要问题是如何插入边：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;n, &amp;m);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; ++i) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d %d %d"</span>, &amp;t, &amp;a, &amp;b);</span><br><span class="line">    <span class="keyword">if</span> (t == <span class="number">3</span>) &#123;</span><br><span class="line">        G[a].push_back(node(b, <span class="number">0</span>));</span><br><span class="line">        G[b].push_back(node(a, <span class="number">0</span>));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;c);</span><br><span class="line">        <span class="keyword">if</span> (t == <span class="number">1</span>) &#123;</span><br><span class="line">            G[a].push_back(node(b, c));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            G[b].push_back(node(a, -c));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="tyvj-p1277-关系运算图"><a href="#tyvj-p1277-关系运算图" class="headerlink" title="tyvj-p1277 关系运算图"></a>tyvj-p1277 关系运算图</h2><p>好像现在看不到题了：</p>
+<blockquote>
+<p><strong>Description</strong><br>给出一有向图，图中每条边都被标上了关系运算符‘&lt;’,‘&gt;’,‘=’。现在要给图中每个顶点标上一个大于等于0,小于等于k的某个整数使所有边上的符号得到满足。若存在这样的k，则求最小的k，若任何k都无法满足则输出NO。<br>例如下表中最小的k为2。<br>结点1&gt;结点2<br>结点2&gt;结点3<br>结点2&gt;结点4<br>结点3=结点4<br>如果存在这样的k，输出最小的k值；否则输出‘NO’。<br><strong>Input</strong><br>共二行，第一行有二个空格隔开的整数n和m。n表示G的结点个数，m表示G的边数，其中1&lt;=n&lt;=1000, 0&lt;=m&lt;=10000。全部结点用1到n标出，图中任何二点之间最多只有一条边，且不存在自环。<br>第二行共有3m个用空格隔开的整数，第3i-2和第3i-1（1&lt;=i&lt;=m）个数表示第i条边的顶点。第3i个数表示第i条边上的符号，其值用集合{-1，0，1}中的数表示：-1表示‘&lt;’, 0 表示‘=’, 1表示‘&gt;’。<br><strong>Output</strong><br>仅一行，如无解则输出‘NO’；否则输出最小的k的值。<br><strong>Sample Input</strong><br>4 4<br>1 2 -1<br>2 3 0<br>2 4 -1<br>3 4 -1<br><strong>Sample Output</strong><br>2</p>
+</blockquote>
+<p>模板题，最长路</p>
+<h2 id="HDU3440-House-Man"><a href="#HDU3440-House-Man" class="headerlink" title="HDU3440 House Man"></a>HDU3440 <a href="http://acm.hdu.edu.cn/showproblem.php?pid=3440" target="_blank" rel="noopener">House Man</a></h2><p>最短路，如果最高楼在最矮楼左边就翻转高度数组。</p>
+<p>@2019-7-31 贵州铜仁镇远古镇</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/图论/" rel="tag"># 图论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/c-pointer/" rel="next" title="[C++]指针">
+                <i class="fa fa-chevron-left"></i> [C++]指针
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/16/topsort/" rel="prev" title="浅析拓扑排序">
+                浅析拓扑排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">szdytom</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从代数到图论"><span class="nav-number">1.</span> <span class="nav-text">从代数到图论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#差分约束方程"><span class="nav-number">1.1.</span> <span class="nav-text">差分约束方程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图论解法"><span class="nav-number">1.2.</span> <span class="nav-text">图论解法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#差分约束系统"><span class="nav-number">2.</span> <span class="nav-text">差分约束系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#大于还是小于"><span class="nav-number">2.1.</span> <span class="nav-text">大于还是小于</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无解情况"><span class="nav-number">2.2.</span> <span class="nav-text">无解情况</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件矛盾"><span class="nav-number">2.2.1.</span> <span class="nav-text">条件矛盾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无关未知数"><span class="nav-number">2.2.2.</span> <span class="nav-text">无关未知数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断无解"><span class="nav-number">2.2.3.</span> <span class="nav-text">判断无解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超级源点"><span class="nav-number">2.3.</span> <span class="nav-text">超级源点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去除重边"><span class="nav-number">2.4.</span> <span class="nav-text">去除重边</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模板代码"><span class="nav-number">3.</span> <span class="nav-text">模板代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例题"><span class="nav-number">4.</span> <span class="nav-text">例题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#P1993-小K的农场"><span class="nav-number">4.1.</span> <span class="nav-text">P1993 小K的农场</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tyvj-p1277-关系运算图"><span class="nav-number">4.2.</span> <span class="nav-text">tyvj-p1277 关系运算图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDU3440-House-Man"><span class="nav-number">4.3.</span> <span class="nav-text">HDU3440 House Man</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">szdytom</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
