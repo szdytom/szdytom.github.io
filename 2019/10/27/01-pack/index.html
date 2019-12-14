@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="szdytom&#39;s blog">
 <meta property="og:description" content="基本问题有N件物品和一个容量为V 的背包。放入第$i$件物品耗费的空间是$C_i$，得到的价值是$W_i$。求解将哪些物品装入背包可使价值总和最大。 思路这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。 用子问题定义状态：即$F[i,v]$表示前i件物品恰放入一个容量为v的背包可以获得的最大价值。则其状态转移方程便是：$F[i, v] = max{F[i−1,v], F[i−1,">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-27T06:06:18.161Z">
+<meta property="og:updated_time" content="2019-11-27T06:06:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[C++]01背包问题">
 <meta name="twitter:description" content="基本问题有N件物品和一个容量为V 的背包。放入第$i$件物品耗费的空间是$C_i$，得到的价值是$W_i$。求解将哪些物品装入背包可使价值总和最大。 思路这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。 用子问题定义状态：即$F[i,v]$表示前i件物品恰放入一个容量为v的背包可以获得的最大价值。则其状态转移方程便是：$F[i, v] = max{F[i−1,v], F[i−1,">
@@ -296,6 +296,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/27/01-pack/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/27/01-pack/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -412,6 +422,9 @@
 
           
 
+  
+    <div class="comments" id="comments">
+    </div>
   
 
 
@@ -703,6 +716,28 @@
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'CnCWj2AqKVtugQe4I7pJ2khY-gzGzoHsz',
+        appKey: 'Ve1ATDamVlDtyUzcA9CBz4mK',
+        placeholder: 'You Can Comment Here!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'20' || 10,
+    });
+  </script>
 
 
 
